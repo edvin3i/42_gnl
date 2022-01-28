@@ -1,19 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbreana <gbreana@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/01 20:14:47 by gbreana           #+#    #+#             */
-/*   Updated: 2022/01/06 22:58:45 by gbreana          ###   ########.fr       */
+/*   Created: 2022/01/04 10:09:12 by gbreana           #+#    #+#             */
+/*   Updated: 2022/01/06 21:22:29 by gbreana          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 2
+# endif
+# ifndef OPEN_MAX
+#  define OPEN_MAX 256
 # endif
 
 # include <stdlib.h>

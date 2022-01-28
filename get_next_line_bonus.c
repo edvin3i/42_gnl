@@ -1,15 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbreana <gbreana@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/01 20:18:38 by gbreana           #+#    #+#             */
-/*   Updated: 2022/01/06 22:59:10 by gbreana          ###   ########.fr       */
+/*   Created: 2022/01/04 10:12:32 by gbreana           #+#    #+#             */
+/*   Updated: 2022/01/06 20:10:51 by gbreana          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*ft_get_new_chars(int fd, char *saved_lines, char *buffer)
 {
@@ -34,8 +34,8 @@ char	*ft_get_new_chars(int fd, char *saved_lines, char *buffer)
 
 char	*ft_get_line(char *saved_line)
 {
-	size_t		i;
-	char		*line;
+	int		i;
+	char	*line;
 
 	i = 0;
 	if (!saved_line)
@@ -64,7 +64,6 @@ char	*ft_save(char *saved_line)
 {
 	int		i;
 	int		j;
-	size_t	new_line_len;
 	char	*new_line;
 
 	i = 0;
@@ -75,8 +74,7 @@ char	*ft_save(char *saved_line)
 		free(saved_line);
 		return (NULL);
 	}
-	new_line_len = ft_strlen(saved_line) - i + 1;
-	new_line = (char *) malloc(sizeof(char) * new_line_len);
+	new_line = (char *) malloc(sizeof(char) * (ft_strlen(saved_line) - i + 1));
 	if (!new_line)
 		return (NULL);
 	i++;
@@ -92,22 +90,22 @@ char	*get_next_line(int fd)
 {
 	char		buff[BUFFER_SIZE + 1];
 	char		*line;
-	static char	*saved_lines;
+	static char	*saved_lines[OPEN_MAX];
 
-	if (read(fd, buff, 0) != 0 || BUFFER_SIZE <= 0)
+	if (read(fd, buff, 0) != 0 || BUFFER_SIZE <= 0 || fd > OPEN_MAX)
 		return (NULL);
-	if (!saved_lines)
+	if (!saved_lines[fd])
 	{
-		saved_lines = (char *)malloc(sizeof (char) * 1);
-		if (!saved_lines)
+		saved_lines[fd] = (char *)malloc(sizeof (char) * 1);
+		if (!saved_lines[fd])
 			return (NULL);
-		saved_lines[0] = '\0';
+		saved_lines[fd][0] = '\0';
 	}
-	saved_lines = ft_get_new_chars(fd, saved_lines, buff);
-	if (!saved_lines)
+	saved_lines[fd] = ft_get_new_chars(fd, saved_lines[fd], buff);
+	if (!saved_lines[fd])
 		return (NULL);
-	line = ft_get_line(saved_lines);
-	saved_lines = ft_save(saved_lines);
+	line = ft_get_line(saved_lines[fd]);
+	saved_lines[fd] = ft_save(saved_lines[fd]);
 	if (line[0])
 		return (line);
 	free(line);
